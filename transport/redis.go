@@ -24,7 +24,7 @@ type RedisClient struct {
 	cancelFunc context.CancelFunc
 }
 
-func RegisterRedisFlags() {
+func RegisterFlags() {
 	RedisAddress = flag.String("redis.address", "localhost:6379", "Address of the redis server")
 	RedisPasswd = flag.String("redis.passwd", "", "Password for redis authentication")
 	RedisDB = flag.Int("redis.db", 0, "Db index of the redis database")
