@@ -61,7 +61,7 @@ func StartRedisClientFromArgs(log utils.Logger) (*RedisClient, error) {
 }
 func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 	for _, msg := range msgs {
-		rc.Client.Set(rc.ctx, strconv.FormatUint(uint64(msg.SequenceNum), 10), msg, 90)
+		rc.Client.Set(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), msg, 90)
 	}
 }
 
