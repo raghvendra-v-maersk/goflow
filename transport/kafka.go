@@ -13,7 +13,7 @@ import (
 	sarama "github.com/Shopify/sarama"
 	flowmessage "github.com/cloudflare/goflow/v3/pb"
 	"github.com/cloudflare/goflow/v3/utils"
-	proto "github.com/golang/protobuf/proto"
+	proto "google.golang.org/protobuf/proto"
 )
 
 var (
@@ -166,13 +166,13 @@ func (s KafkaState) SendKafkaFlowMessage(flowMessage *flowmessage.FlowMessage) {
 		key = sarama.StringEncoder(keyStr)
 	}
 	var b []byte
-	if !s.FixedLengthProto {
-		b, _ = proto.Marshal(flowMessage)
-	} else {
+	//if !s.FixedLengthProto {
+	b, _ = proto.Marshal(flowMessage)
+	/*} else {
 		buf := proto.NewBuffer([]byte{})
 		buf.EncodeMessage(flowMessage)
 		b = buf.Bytes()
-	}
+	}*/
 	s.producer.Input() <- &sarama.ProducerMessage{
 		Topic: s.topic,
 		Key:   key,

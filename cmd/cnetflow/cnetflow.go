@@ -32,7 +32,8 @@ var (
 	MetricsPath  = flag.String("metrics.path", "/metrics", "Metrics path")
 	TemplatePath = flag.String("templates.path", "/templates", "NetFlow/IPFIX templates list")
 
-	Version = flag.Bool("v", false, "Print version")
+	EnableRedis = flag.Bool("redis", true, "Enable Redis")
+	Version     = flag.Bool("v", false, "Print version")
 )
 
 func init() {

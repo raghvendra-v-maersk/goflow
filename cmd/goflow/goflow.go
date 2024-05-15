@@ -43,6 +43,7 @@ var (
 	MetricsAddr = flag.String("metrics.addr", ":8080", "Metrics address")
 	MetricsPath = flag.String("metrics.path", "/metrics", "Metrics path")
 
+	EnableRedis  = flag.Bool("redis", true, "Enable Redis")
 	TemplatePath = flag.String("templates.path", "/templates", "NetFlow/IPFIX templates list")
 
 	Version = flag.Bool("v", false, "Print version")
@@ -107,6 +108,15 @@ func main() {
 		sSFlow.Transport = kafkaState
 		sNFL.Transport = kafkaState
 		sNF.Transport = kafkaState
+	}
+	if *EnableRedis {
+		redisClient, err := transport.StartRedisClientFromArgs(log.StandardLogger())
+		if err != nil {
+			log.Fatal(err)
+		}
+		sSFlow.Transport = redisClient
+		sNFL.Transport = redisClient
+		sNF.Transport = redisClient
 	}
 
 	wg := &sync.WaitGroup{}

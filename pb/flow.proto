@@ -3,6 +3,7 @@ package flowprotob;
 
 option java_package = "com.cloudflare.net.flowagg";
 option java_outer_classname = "FlowMessagePb";
+option go_package = "github.com/cloudflare/goflow/v3/flowprotob";
 
 message FlowMessage {
 
