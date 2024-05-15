@@ -68,7 +68,7 @@ func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 		if err != nil {
 			fmt.Printf("%w", err)
 		}
-		rc.Client.Set(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), p, time.Duration(90*time.Second))
+		rc.Client.Set(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), "XXXX", time.Duration(90*time.Second))
 	}
 }
 
