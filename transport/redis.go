@@ -65,11 +65,11 @@ func StartRedisClientFromArgs(log utils.Logger) (*RedisClient, error) {
 func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 	for _, msg := range msgs {
 		fmt.Printf("%v", msg)
-		_, err := json.Marshal(msg)
+		p, err := json.Marshal(msg)
 		if err != nil {
 			fmt.Printf("%w", err)
 		}
-		rc.Client.Set(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), "XXXX", time.Duration(90*time.Second))
+		rc.Client.HSet(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), p, time.Duration(90*time.Second))
 	}
 }
 
