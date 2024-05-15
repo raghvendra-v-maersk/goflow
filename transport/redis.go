@@ -2,7 +2,9 @@ package transport
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -62,7 +64,11 @@ func StartRedisClientFromArgs(log utils.Logger) (*RedisClient, error) {
 }
 func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 	for _, msg := range msgs {
-		rc.Client.Set(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), msg, time.Duration(90*time.Second))
+		p, err := json.Marshal(msg)
+		if err != nil {
+			fmt.Printf("%w", err)
+		}
+		rc.Client.Set(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), p, time.Duration(90*time.Second))
 	}
 }
 
