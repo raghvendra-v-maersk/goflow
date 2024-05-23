@@ -66,9 +66,12 @@ func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 	for _, msg := range msgs {
 		p, err := json.Marshal(msg)
 		if err != nil {
-			fmt.Printf("%w", err)
+			fmt.Printf("%v", err)
 		}
-		rc.Client.HSet(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), p, time.Duration(90*time.Second))
+		err = rc.Client.HSet(rc.ctx, "flow:"+strconv.FormatUint(uint64(msg.SequenceNum), 10), p, time.Duration(90*time.Second)).Err()
+		if err != nil {
+			fmt.Printf("Redis Error: %v", err)
+		}
 	}
 }
 
