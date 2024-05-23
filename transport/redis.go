@@ -34,7 +34,6 @@ func RegisterFlags() {
 }
 func StartRedisClientFromArgs(log utils.Logger) (*RedisClient, error) {
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
 	client := redis.NewClient(&redis.Options{
 		Addr:     *RedisAddress,
 		Password: *RedisPasswd,
@@ -76,5 +75,6 @@ func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 }
 
 func (rc *RedisClient) Close() error {
+	rc.cancelFunc()
 	return rc.Client.Close()
 }
