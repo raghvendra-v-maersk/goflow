@@ -64,7 +64,6 @@ func StartRedisClientFromArgs(log utils.Logger) (*RedisClient, error) {
 }
 func (rc RedisClient) Publish(msgs []*flowmessage.FlowMessage) {
 	for _, msg := range msgs {
-		fmt.Printf("%v", msg)
 		p, err := json.Marshal(msg)
 		if err != nil {
 			fmt.Printf("%w", err)
